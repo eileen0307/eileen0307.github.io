@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GIS Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest: #1a2e1a;
+      --moss: #2d4a2d;
+      --sage: #5c7a4e;
+      --earth: #8b6914;
+      --sand: #c9a96e;
+      --cream: #f5f0e8;
+      --white: #fefefe;
+      --text: #1a2e1a;
+      --light-text: #5c6b5c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(26, 46, 26, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--sand);
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 1; color: var(--sand); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--forest);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(92,122,78,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(139,105,20,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 80%, rgba(45,74,45,0.4) 0%, transparent 55%);
+    }
+
+    /* Topographic line pattern */
+    .hero-topo {
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cpath d='M400,100 Q500,150 550,250 Q600,350 580,450 Q560,550 480,600 Q400,650 320,600 Q240,550 220,450 Q200,350 250,250 Q300,150 400,100Z' fill='none' stroke='%23c9a96e' stroke-width='1'/%3E%3Cpath d='M400,140 Q490,185 535,275 Q580,365 560,455 Q540,545 465,592 Q390,640 315,592 Q240,545 222,455 Q204,365 250,275 Q296,185 400,140Z' fill='none' stroke='%23c9a96e' stroke-width='1'/%3E%3Cpath d='M400,180 Q480,220 520,300 Q560,380 540,460 Q520,540 450,584 Q380,628 310,584 Q240,540 222,460 Q204,380 246,300 Q288,220 400,180Z' fill='none' stroke='%23c9a96e' stroke-width='1'/%3E%3Cpath d='M400,220 Q470,255 505,325 Q540,395 520,465 Q500,535 435,576 Q370,617 305,576 Q240,535 222,465 Q204,395 242,325 Q280,255 400,220Z' fill='none' stroke='%23c9a96e' stroke-width='1'/%3E%3Cpath d='M400,260 Q460,290 490,350 Q520,410 500,470 Q480,530 420,568 Q360,606 300,568 Q240,530 222,470 Q204,410 236,350 Q268,290 400,260Z' fill='none' stroke='%23c9a96e' stroke-width='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 600px 600px;
+    }
+
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s both;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.0;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s both;
+    }
+
+    .hero-name span { color: var(--sand); }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: rgba(245,240,232,0.7);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.7s both;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      background: transparent;
+      border: 1.5px solid var(--sand);
+      color: var(--sand);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s both;
+    }
+
+    .hero-btn:hover {
+      background: var(--sand);
+      color: var(--forest);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s both;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--sand), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+
+    .about-image {
+      background: var(--moss);
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+
+    .about-image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      color: rgba(245,240,232,0.3);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: absolute;
+      inset: 0;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,46,26,0.3) 0%, transparent 60%);
+    }
+
+    .about-content {
+      background: var(--forest);
+      padding: 6rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    .about-content p {
+      color: rgba(245,240,232,0.75);
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2rem;
+    }
+
+    .skill-tag {
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(201,169,110,0.4);
+      color: var(--sand);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio {
+      padding: 7rem 4rem;
+      background: var(--cream);
+    }
+
+    .portfolio-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .portfolio-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-header p {
+      color: var(--light-text);
+      font-size: 1rem;
+      max-width: 550px;
+      margin: 0 auto;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: var(--sand);
+      margin: 1.5rem auto;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      background: var(--white);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(26,46,26,0.15);
+    }
+
+    .project-image {
+      height: 220px;
+      background: var(--moss);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .project-card:hover .project-image img { transform: scale(1.05); }
+
+    .project-image-placeholder {
+      color: rgba(245,240,232,0.3);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .project-tag {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--earth);
+      color: var(--white);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+    }
+
+    .project-info {
+      padding: 1.8rem;
+    }
+
+    .project-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 0.7rem;
+      line-height: 1.3;
+    }
+
+    .project-info p {
+      color: var(--light-text);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--earth);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid var(--sand);
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover { color: var(--forest); }
+
+    /* ── FEATURED PROJECT ── */
+    .featured {
+      padding: 5rem 4rem;
+      background: var(--forest);
+    }
+
+    .featured-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .featured-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 1.5rem;
+    }
+
+    .featured h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+    }
+
+    .featured p {
+      color: rgba(245,240,232,0.75);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .featured-media {
+      background: var(--moss);
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(245,240,232,0.3);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(201,169,110,0.2);
+      pointer-events: none;
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      padding: 7rem 4rem;
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 1rem;
+    }
+
+    .contact p {
+      color: var(--light-text);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: var(--forest);
+      color: var(--sand);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .contact-btn:hover {
+      background: var(--moss);
+      color: var(--white);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--forest);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      color: rgba(245,240,232,0.4);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-links { display: flex; gap: 2rem; }
+
+    .footer-links a {
+      color: rgba(245,240,232,0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--sand); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.2); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      .about { grid-template-columns: 1fr; }
+      .about-image { min-height: 350px; }
+      .about-content { padding: 4rem 2.5rem; }
+      .portfolio { padding: 5rem 2rem; }
+      .featured { padding: 5rem 2rem; }
+      .featured-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .contact { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#home" class="nav-logo">Your Name</a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-topo"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">GIS Professional &amp; Environmental Scientist</p>
+      <h1 class="hero-name">Your<br/><span>Name</span></h1>
+      <p class="hero-subtitle">Spatial Analysis &nbsp;·&nbsp; Cartography &nbsp;·&nbsp; Environmental Data</p>
+      <a href="#portfolio" class="hero-btn">View My Work</a>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-image">
+      <!-- Replace src with your actual headshot path e.g. src="images/headshot.jpg" -->
+      <div class="about-image-placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span>Add your photo here</span>
+      </div>
+      <div class="about-image-overlay"></div>
+    </div>
+    <div class="about-content">
+      <p class="section-label">About Me</p>
+      <h2>Where I Come From Shapes How I See</h2>
+      <p>My story begins in El Salvador, a small but vibrant country in Central America. At nine years old, my family and I made the journey to Texas, and it was through that experience of leaving everything familiar behind that I truly learned the value of geography. A place does not just shape your point of view — it shapes who you are.</p>
+      <p>That curiosity for people, places, and environments has been the thread running through my life and is what led me to where I am today. That passion brought me to Iowa State University, where I studied Environmental Science with a minor in Geographic Information Systems.</p>
+      <p>Through my coursework, internships, and professional work, I developed hands-on experience in spatial analysis, cartographic design, and data-driven storytelling. I work primarily with the ESRI suite of products including Field Maps, Experience Builder, and Dashboards, as well as Python, ArcGIS Online, and Mapbox.</p>
+      <div class="skills-grid">
+        <span class="skill-tag">ESRI Suite</span>
+        <span class="skill-tag">ArcGIS Online</span>
+        <span class="skill-tag">Field Maps</span>
+        <span class="skill-tag">Experience Builder</span>
+        <span class="skill-tag">Dashboards</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Mapbox</span>
+        <span class="skill-tag">Cartography</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECT -->
+  <section class="featured" id="featured">
+    <div class="featured-inner">
+      <div class="reveal">
+        <p class="featured-label">Featured Tool</p>
+        <h2>Percent Hydric Soils Calculator</h2>
+        <p>As a GIS consultant working extensively with environmental data, one of my most recurring tasks involved calculating the percentage of hydric soils within a given study area. Hydric soils are a key indicator of wetland presence, making their accurate measurement critical in environmental assessments.</p>
+        <p>The process was incredibly tedious — requiring manual data retrieval from the USDA NRCS Web Soil Survey, boundary creation, area calculations, unit conversions, and percentage analysis across multiple sites. That frustration became the motivation behind my very first custom GIS tool, which automated this workflow and transformed a laborious multi-step process into something fast, repeatable, and reliable.</p>
+        <p>Below is a quick video showing how the tool runs as well as the Python script I used to make it.</p>
+        <br/>
+        <!-- Replace # with your actual video link -->
+        <a href="#" class="project-link">Watch the Demo ↗</a>
+      </div>
+      <div class="featured-media reveal">
+        <!-- Replace this with an <iframe> or <video> tag when ready -->
+        <span>Video Demo Placeholder</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO GRID -->
+  <section class="portfolio" id="portfolio">
+    <div class="portfolio-header reveal">
+      <p class="section-label">My Work</p>
+      <h2>Portfolio</h2>
+      <div class="divider"></div>
+      <p>This portfolio showcases my work as a professional, highlighting the projects, analysis, and maps I have built. GIS has shown me how much we can learn about a place without ever having to set foot there, and my goal is to use that power to create work that is not only accurate, but tells stories worth telling.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT CARD 1 — Hydric Soils Tool -->
+      <div class="project-card reveal">
+        <div class="project-image">
+          <!-- Replace src with actual image: src="images/hydric-soils.jpg" -->
+          <div class="project-image-placeholder">Add project image</div>
+          <span class="project-tag">Custom Tool</span>
+        </div>
+        <div class="project-info">
+          <h3>Percent Hydric Soils Calculator</h3>
+          <p>A custom Python-based GIS tool that automates the calculation of hydric soil percentages within a study area, replacing a tedious manual workflow with a fast, repeatable process.</p>
+          <a href="#featured" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <!-- PROJECT CARD 2 — Placeholder -->
+      <div class="project-card reveal">
+        <div class="project-image">
+          <div class="project-image-placeholder">Add project image</div>
+          <span class="project-tag">Cartography</span>
+        </div>
+        <div class="project-info">
+          <h3>Project Title</h3>
+          <p>Brief description of this project. What problem did it solve? What tools and data did you use? What was the outcome?</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <!-- PROJECT CARD 3 — Placeholder -->
+      <div class="project-card reveal">
+        <div class="project-image">
+          <div class="project-image-placeholder">Add project image</div>
+          <span class="project-tag">Web GIS</span>
+        </div>
+        <div class="project-info">
+          <h3>Project Title</h3>
+          <p>Brief description of this project. What problem did it solve? What tools and data did you use? What was the outcome?</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <!-- PROJECT CARD 4 — Placeholder -->
+      <div class="project-card reveal">
+        <div class="project-image">
+          <div class="project-image-placeholder">Add project image</div>
+          <span class="project-tag">Environmental</span>
+        </div>
+        <div class="project-info">
+          <h3>Project Title</h3>
+          <p>Brief description of this project. What problem did it solve? What tools and data did you use? What was the outcome?</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="reveal">Let's Connect</h2>
+    <div class="divider"></div>
+    <p class="reveal">If you would like to know more about any of my work or are interested in working together, do not hesitate to reach out.</p>
+    <!-- Replace href with your actual email -->
+    <a href="mailto:youremail@email.com" class="contact-btn reveal">Contact Me</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Your Name. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a href="#">Resume</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
